@@ -1,0 +1,23 @@
+def longestPalindrome(s: str) -> int:
+    count = {}
+
+    for char in s:
+        if(char not in count.keys()):
+            count[char] = 1
+        else:
+            count[char] += 1
+
+    ans = 0
+    singles = 0
+
+    for key in count.keys():
+        value = count[key]
+        ans += ((int)(value / 2)) * 2
+        singles += (value % 2)
+
+    if(singles > 0):
+        ans += 1
+
+    return ans
+
+print(longestPalindrome("abb"))

@@ -10,4 +10,5 @@ public class Q2849 {
         int y = this.abs(sy - fy);
         return (x <= t) & (y <= t) & ((x + y >= t) | (t > 1));  
     }
+
 }

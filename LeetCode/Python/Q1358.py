@@ -27,7 +27,12 @@ class Solution:
             index = min(index, self.find_index(fb, 0, i, fb[i] - 1))
             index = min(index, self.find_index(fc, 0, i, fc[i] - 1))
 
-        print(self.find_index(fb, 0, 3, 1))
+            if(index == -1):
+                continue
+
+            ans += index
+        
+        return ans
 
     def find_index(self, f, l, r, target):
         result = -1

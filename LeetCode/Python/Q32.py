@@ -1,12 +1,13 @@
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
+        s = ')' + s + '('
         parenthesis = []
         index = []
 
         for i in range(len(s)):
             if(s[i] == '('):
-                parenthesis.push('(')
-                index.push(i)
+                parenthesis.append('(')
+                index.append(i)
             else:
                 # try to match
                 last = ('' if (len(parenthesis) == 0) else parenthesis[-1])
@@ -14,8 +15,8 @@ class Solution:
                     parenthesis.pop()
                     index.pop()
                 else:
-                    parenthesis.push(')')
-                    index.push(i)
+                    parenthesis.append(')')
+                    index.append(i)
 
         ans = 0
         last = len(s)

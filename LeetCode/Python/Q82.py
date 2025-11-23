@@ -25,3 +25,25 @@ class Solution:
                 current = current.next
 
         return fakehead.next
+    
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fakehead = ListNode(-200, head)
+        current = fakehead
+
+        lastnum = -200
+        
+        # never delete current
+        while(current.next is not None):
+            if(current.next.next is not None):
+                if(current.next.val == current.next.next.val):
+                    # del two
+                    lastnum = current.next.val
+                    current.next = current.next.next.next
+                    continue
+            if(current.next.val == lastnum):
+                current.next = current.next.next
+            else:
+                current = current.next
+
+        return fakehead.next

@@ -21,7 +21,7 @@ class Solution:
 
         sums = sorted(indexmap.keys())
 
-        indexpool = n
+        indexpool = len(hours)
         for sum in sums:
             indexes = indexmap[sum]
 

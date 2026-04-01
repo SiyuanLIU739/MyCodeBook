@@ -1,5 +1,6 @@
 class Solution:
     def bitwiseComplement(self, n: int) -> int:
+        # 1009 / 476
         if(n == 0):
             return 1
 

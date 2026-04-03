@@ -1,59 +1,49 @@
+from collections import defaultdict, deque
+
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        if(endWord not in wordList):
+        wordSet = set(wordList)
+        if endWord not in wordSet:
             return []
 
-        reach = {beginWord: set()}
+        patterns = defaultdict(list)
+        for word in wordSet | {beginWord}:
+            for i in range(len(word)):
+                patterns[word[:i] + "*" + word[i+1:]].append(word)
 
-        for i in range(len(wordList)):
-            if(self.calDistance(beginWord, wordList[i]) == 1):
-                reach[beginWord].add(wordList[i])
-            if(wordList[i] not in reach.keys()):
-                reach[wordList[i]] = set()
-            for j in range(i + 1, len(wordList)):
-                if(wordList[j] not in reach.keys()):
-                    reach[wordList[j]] = set()
-                if(self.calDistance(wordList[i], wordList[j]) == 1):
-                    reach[wordList[i]].add(wordList[j])
-                    reach[wordList[j]].add(wordList[i])
+        parents = defaultdict(set)
+        level = {beginWord}
+        found = False
 
-        queue = [[beginWord]]
+        while level and not found:
+            next_level = defaultdict(set)
+            for word in level:
+                if word in wordSet:
+                    wordSet.remove(word)
 
-        ans = []
-        while(len(queue) != 0):
-            path = queue.pop(0)
+            for word in level:
+                for i in range(len(word)):
+                    pattern = word[:i] + "*" + word[i+1:]
+                    for nei in patterns[pattern]:
+                        if nei in wordSet:
+                            next_level[nei].add(word)
+                            if nei == endWord:
+                                found = True
 
-            lastWord = path[-1]
-            for word in reach[lastWord]:
-                if(word in path):
-                    continue
+            level = next_level
+            for k, v in next_level.items():
+                parents[k] |= v
 
-                if(word == endWord):
-                    # path to be added
-                    if(len(ans) == 0 or len(ans[-1]) == len(path) + 1):
-                        path.append(word)
-                        ans.append(path)
-                    # paths in ans to be clear
-                    elif(len(ans[-1]) > len(path) + 1):
-                        ans = []
-                        path.append(word)
-                        ans.append(path)
-                else:
-                    if(len(ans) != 0 and len(path) + 1 >= len(ans[-1])):
-                        continue
+        res = []
 
-                    newpath = path.copy()
-                    newpath.append(word)
-                    queue.append(newpath)
+        def dfs(word, path):
+            if word == beginWord:
+                res.append(path[::-1])
+                return
+            for p in parents[word]:
+                dfs(p, path + [p])
 
-        return ans
-    
-    def calDistance(self, worda, wordb):
-        n = len(worda)
+        if found:
+            dfs(endWord, [endWord])
 
-        ans = 0
-        for i in range(n):
-            if(worda[i] != wordb[i]):
-                ans += 1
-
-        return ans
+        return res

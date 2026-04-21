@@ -1,32 +1,14 @@
-class Q53:
-    def findMin(self, nums) -> int:
-        return self.find(nums, 0, len(nums) - 1)
-    
-    def find(self, nums, left, right):
-        if(left == right):
-            return nums[left]
-        
-        if(nums[left] < nums[right]):
-            return nums[left]
-        
-        mid = (int)((left + right) / 2)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        n = len(nums)
 
-        if(nums[left] > nums[mid]):
-            return self.find(nums, left, mid)
-        elif(nums[left] == nums[mid]):
-            return self.min(self.find(nums, left, mid), self.find(nums, mid + 1, right))
-        return self.find(nums, mid + 1, right)
-    
-    def min(self, a, b):
-        if(a > b):
-            return b
-        return a
-    
-    def __init__(self, nums) -> None:
-        self.ans = self.findMin(nums)
-    
-if __name__ == "__main__":
-    nums = [2,1,2,2,2]
-    ans = Q53(nums)
-    print(ans.ans)
+        f = [0] * n
 
+        ans = -100001
+        for i in range(n):
+            f[i] = nums[i]
+            if(i > 0 and f[i - 1] > 0):
+                f[i] += f[i - 1]
+            ans = max(ans, f[i])
+
+        return ans

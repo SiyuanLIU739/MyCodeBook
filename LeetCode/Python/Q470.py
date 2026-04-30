@@ -14,5 +14,4 @@ class Solution:
             combined_value = row * 7 + col
 
             if combined_value <= 40:
-
                 return combined_value % 10 + 1

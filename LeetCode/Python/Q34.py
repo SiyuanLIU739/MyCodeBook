@@ -45,3 +45,28 @@ nums = []
 t = 6
 sol = Solution()
 print(sol.searchRange(nums, t))
+
+from bisect import bisect_left, bisect_right
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        ans = [-1, -1]
+
+        if(len(nums) == 0):
+            return ans
+        if(target < nums[0]):
+            return ans
+        if(target > nums[-1]):
+            return ans
+        
+
+        index = bisect_left(nums, target)
+        if(nums[index] == target):
+            ans[0] = index
+        else:
+            return ans
+        
+        index = bisect_right(nums, target)
+        ans[1] = index - 1
+
+        return ans

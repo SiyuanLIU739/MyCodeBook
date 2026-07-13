@@ -11,6 +11,7 @@ class Solution:
             if(char in '+-*/'):
                 exp.append(int(last))
                 exp.append(char)
+                last = ""
             else:
                 last += char
         exp.append(int(last))
@@ -50,3 +51,6 @@ class Solution:
         return ans
 
 
+sol = Solution()
+s = " 3+5 / 2 "
+print(sol.calculate(s))

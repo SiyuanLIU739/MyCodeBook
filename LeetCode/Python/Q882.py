@@ -26,10 +26,7 @@ class Solution:
             for to in range(n):
                 if(graph[fr][to] is None):
                     continue
-                
-                if(utilization[to][fr] != 0 and utilization[to][fr] == graph[fr][to]):
-                    continue
-
+                    
                 if(move + graph[fr][to] + 1 <= maxMoves):
                     heapq.heappush(q, (move + graph[fr][to] + 1, to))
                     utilization[fr][to] = graph[fr][to]
@@ -46,6 +43,3 @@ class Solution:
                 ans += min(graph[fr][to] if graph[fr][to] is not None else 0, utilization[fr][to] + utilization[to][fr])
 
         return ans
-
-
-            

@@ -19,9 +19,11 @@ class Solution:
                 if(sum_island % k == 0):
                     ans += 1
 
+
         return ans
 
     def dfs(self, grid, visited, i, j):
+        visited[i][j] = True
         s = grid[i][j]
         m = len(grid)
         n = len(grid[0])
@@ -29,7 +31,7 @@ class Solution:
         directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
         for d in directions:
             next_i = i + d[0]
-            next_j = i + d[1]
+            next_j = j + d[1]
 
             if(next_i < 0 or next_i >= m or next_j < 0 or next_j >= n):
                 continue
@@ -37,7 +39,7 @@ class Solution:
             if(grid[next_i][next_j] == 0):
                 continue
 
-            if(visited[next_i][next_j] == 0):
+            if(visited[next_i][next_j]):
                 continue
 
             s += self.dfs(grid, visited, next_i, next_j)
